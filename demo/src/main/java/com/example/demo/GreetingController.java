@@ -1,16 +1,23 @@
 package com.example.demo;
 
+import com.example.demo.asset.Article;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import com.example.demo.repository.ArticleRepo;
+import com.example.demo.Service;
 
+import java.net.URI;
 import java.util.*;
 
 @Controller
 public class GreetingController {
+    Service service = new Service();
 
-    private Map<Integer, HashMap<String, Object>> articles = new HashMap<>();
-    private int nextId = 1;
+//    private Map<Integer, HashMap<String, Object>> articles = new HashMap<>();
+//    private int nextId = 1;
 
 //    @GetMapping("/introduce")
 //    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
@@ -20,7 +27,7 @@ public class GreetingController {
 
     @GetMapping("/posts")
     public String printPosts(Model model) {
-        model.addAttribute("name", articles.values());
+        model.addAttribute("posts", service.getArticleMap());
         return "HelloWorld";
     }
 
@@ -28,8 +35,8 @@ public class GreetingController {
     //Article 모두 출력
     @GetMapping("/article")
     @ResponseBody
-    public Collection<HashMap<String, Object>> printarticles() {
-        return articles.values();
+    public HashMap<Integer, Article> printArticleMap() {
+        return service.getArticleMap();
     }
 
     @ResponseBody
@@ -43,38 +50,38 @@ public class GreetingController {
 
     @GetMapping("/article/{id}")
     @ResponseBody
-    public HashMap<String, Object> getArticle(@PathVariable int id) {
-        return articles.get(id);
+    public Article getArticle(@PathVariable int id) {
+        return service.getArticle(id);
     }
 
     @PostMapping("/article")
     @ResponseBody
-    public HashMap<String, Object> createArticle(@RequestBody HashMap<String, Object> article) {
-        articles.put(nextId, article);
-        nextId++;
-        return article;
+    public ResponseEntity createArticle(@RequestBody Article article) {
+        if (!service.isContainElements(article)) { //String 값들이 존재하는지 확인
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        service.addArticle(article);
+        return ResponseEntity.created(URI.create("/article")).build();
     }
 
     @PutMapping("/article/{id}")
     @ResponseBody
-    public HashMap<String, Object> updateArticle(@PathVariable int id, @RequestBody HashMap<String, Object> updatedArticle) {
-        HashMap<String, Object> existingArticle = articles.get(id);
-        if (existingArticle != null) {
-            existingArticle.putAll(updatedArticle);
-            return existingArticle;
-        } else {
-            return null; // or handle error appropriately
+    public ResponseEntity updateArticle(@PathVariable int id, @RequestBody Article article) {
+        if (!service.isContainElements(article)) { //String 값들이 존재하는지 확인
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+        service.addArticle(article);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/article/{id}")
     @ResponseBody
-    public String deleteArticle(@PathVariable int id) {
-        if (articles.containsKey(id)) {
-            articles.remove(id);
-            return "Article with ID " + id + " deleted successfully";
+    public ResponseEntity deleteArticle(@PathVariable int id) {
+        if (service.isExist(id)) {
+            service.deleteArticle(id);
+            return ResponseEntity.noContent().build();
         } else {
-            return "Article with ID " + id + " does not exist";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 }
