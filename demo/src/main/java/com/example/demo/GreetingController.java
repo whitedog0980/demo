@@ -4,9 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Controller
 public class GreetingController {
@@ -14,10 +12,24 @@ public class GreetingController {
     private Map<Integer, HashMap<String, Object>> articles = new HashMap<>();
     private int nextId = 1;
 
-    @GetMapping("/introduce")
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
+//    @GetMapping("/introduce")
+//    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
+//        model.addAttribute("name", name);
+//        return "HelloWorld";
+//    }
+
+    @GetMapping("/posts")
+    public String printPosts(Model model) {
+        model.addAttribute("name", articles.values());
         return "HelloWorld";
+    }
+
+
+    //Article 모두 출력
+    @GetMapping("/article")
+    @ResponseBody
+    public Collection<HashMap<String, Object>> printarticles() {
+        return articles.values();
     }
 
     @ResponseBody
