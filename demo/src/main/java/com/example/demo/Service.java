@@ -22,6 +22,9 @@ public class Service {
     public void deleteArticle(int id){
         articleRepo.deleteArticle(id);
     }
+    public ArticleRepo getArticleRepo() {
+        return articleRepo;
+    }
 
     public HashMap<Integer, Article> getArticleMap() {
         return articleRepo.getArticleMap();

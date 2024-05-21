@@ -6,8 +6,10 @@
 </head>
 <body>
 <ol>
-  <li th:each="posts : ${posts}">
-    <span th:text="${posts}"></span>
+  <li th:each="post : ${posts}">
+    <h1 th:text="${post.value.title}"></h1>
+    <span th:text="${post.value.member_id} +  '|' + ${post.value.writeDate}"/>
+    <p th:text="${post.value.contents}"></p>
   </li>
 </ol>
 </body>
