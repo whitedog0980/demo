@@ -18,24 +18,16 @@ public class Service {
     public boolean isExist(int id){
         return articleRepo.getArticleMap().containsKey(id);
     }
-
     public void deleteArticle(int id){
         articleRepo.deleteArticle(id);
     }
-    public ArticleRepo getArticleRepo() {
-        return articleRepo;
-    }
-
     public HashMap<Integer, Article> getArticleMap() {
         return articleRepo.getArticleMap();
     }
-
     public Article getArticle(int id) {
         return articleRepo.getArticle(id);
     }
-
     public void addArticle(Article article) {
         articleRepo.addArticle(article);
     }
-
 }
