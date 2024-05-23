@@ -6,8 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.example.demo.repository.ArticleRepo;
-import com.example.demo.Service;
 
 import java.net.URI;
 import java.util.*;
@@ -15,16 +13,6 @@ import java.util.*;
 @Controller
 public class GreetingController {
     Service service = new Service();
-
-//    private Map<Integer, HashMap<String, Object>> articles = new HashMap<>();
-//    private int nextId = 1;
-
-//    @GetMapping("/introduce")
-//    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-//        model.addAttribute("name", name);
-//        return "HelloWorld";
-//    }
-
     @GetMapping("/posts")
     public String printPosts(Model model) {
         model.addAttribute("posts", service.getArticleMap());
