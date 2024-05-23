@@ -17,7 +17,6 @@ public class ArticleRepo {
 
     public void addArticle(Article article) {
         articleMap.put(article_id, article);
-        article.setArticle_U_id(article_id);
         article_id++;
     }
 
