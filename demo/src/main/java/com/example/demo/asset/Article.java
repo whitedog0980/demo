@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 
 public class Article {
+
+    private int id;
     private int member_id;
     private int board_id;
     private String title;
@@ -13,9 +15,20 @@ public class Article {
     private int editDate;
 
 
+    public Article(Integer id, Integer member_id, Integer board_id,
+                   String title, String contents, Integer writeDate,
+                   Integer editDate) {
+        this.id = id;
+        this.member_id = member_id;
+        this.board_id = board_id;
+        this.title = title;
+        this.contents = contents;
+        this.writeDate = writeDate;
+        this.editDate = editDate;
+    }
 
 
-
+    public int getId() {return this.member_id;}
     public int getMember_id() {return this.member_id;}
     public int getBoard_id() {return  this.board_id;}
     public String getTitle() {return this.title;}

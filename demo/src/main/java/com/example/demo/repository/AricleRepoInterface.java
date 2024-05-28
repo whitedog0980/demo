@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface AricleRepoInterface {
     public void append(Article article);
+    public Article getById(int id);
 
 
 }
