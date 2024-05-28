@@ -5,7 +5,7 @@ import com.example.demo.asset.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,11 +20,11 @@ public class ArticleRepoJDBC implements AricleRepoInterface{
     public ArticleRepoJDBC(JdbcTemplate jdbcTemplate) {this.jdbcTemplate = jdbcTemplate;}
 
 
-    @Transactional
+    //@Transactional
     @Override
     public void append(Article article) {
-        String sql = "INSERT INTO article (idarticle, member_idmember, board_idboard, title, content, writeDate, editDate)" +
-            "VALUES (?, ?, ?, ?, ?, now(), now())";
+        String sql = "INSERT INTO article (id, member_id, board_id, title, content, , editDate)" +
+            "VALUES (?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql,article_id, article.getMember_id(), article.getBoard_id(), article.getTitle(), article.getContents());
         article_id++;
     }
@@ -45,7 +45,7 @@ public class ArticleRepoJDBC implements AricleRepoInterface{
         });
     }
 
-
+    @Override
     public HashMap<Integer, Article> getAll() {
         String sql = "SELECT * FROM article ORDER BY idarticle";
         List<Article> articles = jdbcTemplate.query(sql, (rs, rowNum) -> {
@@ -60,18 +60,17 @@ public class ArticleRepoJDBC implements AricleRepoInterface{
             );
             return temp;
         });
-
         HashMap<Integer, Article> articleMap = new HashMap<>();
         for (Article article : articles) {
             articleMap.put(article.getId(), article);
         }
-
         return articleMap;
     }
 
+
+    @Override
     public void delete(Integer id) {
         String sql = "DELETE FROM article WHERE id = ?";
-
         jdbcTemplate.update(sql, id);
     }
 }
