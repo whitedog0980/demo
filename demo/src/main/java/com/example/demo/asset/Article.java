@@ -1,5 +1,9 @@
 package com.example.demo.asset;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.time.LocalDateTime;
+
 public class Article {
     private int member_id;
     private int board_id;
@@ -7,6 +11,8 @@ public class Article {
     private String contents;
     private int writeDate;
     private int editDate;
+
+
 
 
 
