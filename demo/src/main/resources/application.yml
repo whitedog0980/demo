@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:mysql:localhost:3306
+    username: {root}
+    password: {0980}
+    driver-class-name: jdbc:mysql://localhost:3306/demo_schema?serverTimezone=Asia/Seoul
